@@ -23,9 +23,13 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun BaseApp() {
         val navController = rememberNavController()
-        NavHost(navController = navController, startDestination = AppNavigationItem.APPLY.route) {
-            composable(AppNavigationItem.APPLY.route) {
+        NavHost(navController = navController, startDestination = AppNavigationItem.Login.route) {
+            composable(AppNavigationItem.Apply.route) {
                 ApplyScreen(navController = navController)
+            }
+            
+            composable(AppNavigationItem.Login.route) {
+                LoginScreen(navController = navController)
             }
         }
     }

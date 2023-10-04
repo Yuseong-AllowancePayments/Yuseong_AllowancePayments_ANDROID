@@ -1,4 +1,4 @@
-package com.example.a01051355543.navigation
+package com.example.yuseongallowancepaymentsandroid.navigation
 
 sealed class AppNavigationItem(val route: String) {
 

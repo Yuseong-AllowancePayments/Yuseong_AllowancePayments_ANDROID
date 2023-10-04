@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.a01051355543.navigation.AppNavigationItem
+import com.example.yuseongallowancepaymentsandroid.navigation.AppNavigationItem
 import com.example.yuseongallowancepaymentsandroid.ui.theme.YuseongAllowancePaymentsANDROIDTheme
 
 class MainActivity : ComponentActivity() {

@@ -61,6 +61,19 @@ fun ApplyScreen(navController: NavController) {
             ApplyButtonsRow(selectedButtonIndex) { newIndex ->
                 selectedButtonIndex = newIndex
             }
+            Spacer(modifier = Modifier.size(50.dp))
+            Button(
+                onClick = { /*TODO*/ },
+                colors = ButtonDefaults.buttonColors(Color(0xFF0F5EB8)),
+                modifier = Modifier
+                    .clip(RoundedCornerShape(8.dp))
+                    .width(200.dp)
+                    .height(42.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .background(Color(0xFF0F5EB8)),
+            ) {
+                Text(text = "선택")
+            }
         }
     }
 }
@@ -86,8 +99,9 @@ fun ApplyButtonsRow(selectedIndex: Int, onButtonSelected: (Int) -> Unit) {
 @Composable
 fun ApplyButton(title: String, isSelected: Boolean, onClick: () -> Unit) {
     val borderColor = if (isSelected) Color.Blue else Color.LightGray
+    val backgroundColor = if (borderColor == Color.Blue) Color(0xFFE6F2FF) else Color.White
     Button(
-        colors = ButtonDefaults.buttonColors(Color.White),
+        colors = ButtonDefaults.buttonColors(backgroundColor),
         onClick = onClick,
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
@@ -97,9 +111,13 @@ fun ApplyButton(title: String, isSelected: Boolean, onClick: () -> Unit) {
                 color = borderColor,
                 shape = RoundedCornerShape(8.dp)
             )
-            .background(Color.White),
+            .background(backgroundColor),
     ) {
-        Text(text = title, color = borderColor)
+        Text(
+            text = title,
+            color = borderColor,
+            fontSize = 16.sp
+        )
     }
     Spacer(modifier = Modifier.size(20.dp))
 }

@@ -2,12 +2,26 @@ package com.example.yuseongallowancepaymentsandroid
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,8 +39,7 @@ fun ApplyScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(40.dp),
-        contentAlignment = Alignment.Center
+            .padding(40.dp), contentAlignment = Alignment.Center
     ) {
         Column {
             Box(
@@ -36,8 +49,7 @@ fun ApplyScreen(navController: NavController) {
             ) {
                 Text(
                     text = "참전유공자 명예 수당 지급 신청서 작성",
-                    modifier = Modifier
-                        .height(height = 50.dp),
+                    modifier = Modifier.height(height = 50.dp),
                     fontWeight = FontWeight.Bold,
                     fontSize = 30.sp,
                     textAlign = TextAlign.Start
@@ -77,18 +89,22 @@ fun ApplyScreen(navController: NavController) {
         }
     }
 }
+
 @Composable
-fun ApplyButtonsRow(selectedIndex: Int, onButtonSelected: (Int) -> Unit) {
+fun ApplyButtonsRow(
+    selectedIndex: Int,
+    onButtonSelected: (Int) -> Unit,
+) {
     val buttonTitles = listOf("참전유공자 명예 수당", "참전유공자 배우자 수당", "보훈 예우 수당")
 
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
     ) {
         buttonTitles.forEachIndexed { index, title ->
             ApplyButton(
                 title = title,
-                isSelected = index == selectedIndex
+                isSelected = index == selectedIndex,
             ) {
                 onButtonSelected(index)
             }
@@ -97,7 +113,11 @@ fun ApplyButtonsRow(selectedIndex: Int, onButtonSelected: (Int) -> Unit) {
 }
 
 @Composable
-fun ApplyButton(title: String, isSelected: Boolean, onClick: () -> Unit) {
+fun ApplyButton(
+    title: String,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+) {
     val borderColor = if (isSelected) Color.Blue else Color.LightGray
     val backgroundColor = if (borderColor == Color.Blue) Color(0xFFE6F2FF) else Color.White
     Button(
@@ -105,11 +125,9 @@ fun ApplyButton(title: String, isSelected: Boolean, onClick: () -> Unit) {
         onClick = onClick,
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
-            .size(240.dp, 110.dp)
+            .size(214.dp, 100.dp)
             .border(
-                width = 1.dp,
-                color = borderColor,
-                shape = RoundedCornerShape(8.dp)
+                width = 1.dp, color = borderColor, shape = RoundedCornerShape(8.dp)
             )
             .background(backgroundColor),
     ) {

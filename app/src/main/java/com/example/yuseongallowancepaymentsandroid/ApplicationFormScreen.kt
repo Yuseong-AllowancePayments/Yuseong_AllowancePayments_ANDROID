@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,7 +35,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
@@ -148,13 +151,13 @@ private fun TextField() {
         CommonTextField(
             value = name,
             text = "성명",
-            onValueChange = { name },
+            onValueChange = { name = it },
             label = "성명을 입력해주세요",
         )
         CommonTextField(
             value = idCard,
             text = "주민등록번호",
-            onValueChange = { idCard },
+            onValueChange = { idCard = it },
             label = "주민등록번호를 입력해주세요",
         )
     }
@@ -178,17 +181,19 @@ private fun TextField() {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        CommonTextField(
+        CommonTextFieldIcon(
             value = acquisitionDate,
             text = "보훈 자격 취득일",
-            onValueChange = { acquisitionDate },
+            onValueChange = { acquisitionDate = it },
             label = "보훈 자격 취득일을 선택해주세요.",
+            icon = painterResource(id = R.drawable.ic_calendar),
         )
-        CommonTextField(
+        CommonTextFieldIcon(
             value = applicationDate,
             text = "보훈 수당 신청일",
-            onValueChange = { applicationDate },
+            onValueChange = { applicationDate = it },
             label = "보훈 수당 신청일을 선택해주세요.",
+            icon = painterResource(id = R.drawable.ic_calendar),
         )
     }
     Spacer(modifier = Modifier.height(40.dp))
@@ -196,11 +201,12 @@ private fun TextField() {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        CommonTextField(
+        CommonTextFieldIcon(
             value = moveInDate,
             text = "전입일",
-            onValueChange = { moveInDate },
+            onValueChange = { moveInDate = it },
             label = "전입일을 선택해주세요.",
+            icon = painterResource(id = R.drawable.ic_calendar),
         )/*Column {
             Text(
                 text = "전출일",
@@ -232,7 +238,7 @@ private fun TextField() {
         CommonTextField(
             value = address,
             text = "주소",
-            onValueChange = { address },
+            onValueChange = { address = it },
             label = "도로명 주소를 입력해주세요.",
         )/*Column {
                 Text(
@@ -258,13 +264,13 @@ private fun TextField() {
         CommonTextField(
             value = depositType,
             text = "입금 유형",
-            onValueChange = { depositType },
+            onValueChange = { depositType = it },
             label = "입금 유형을 입력해주세요."
         )
         CommonTextField(
             value = bankName,
             text = "은행명",
-            onValueChange = { bankName },
+            onValueChange = { bankName = it },
             label = "은행명을 입력해주세요.",
         )
     }
@@ -276,13 +282,13 @@ private fun TextField() {
         CommonTextField(
             value = accountHolder,
             text = "예금주",
-            onValueChange = { accountHolder },
+            onValueChange = { accountHolder = it },
             "예금주 성명을 입력해주세요.",
         )
         CommonTextField(
             value = accountNumber,
             text = "계좌 번호",
-            onValueChange = { accountNumber },
+            onValueChange = { accountNumber = it },
             label = "계좌 번호를 입력해주세요.",
         )
     }
@@ -294,7 +300,8 @@ private fun TextField() {
 private fun CommonTextField(
     value: String,
     text: String,
-    onValueChange: () -> Unit, label: String,
+    onValueChange: (String) -> Unit,
+    label: String,
 ) {
     Column {
         Text(
@@ -306,9 +313,42 @@ private fun CommonTextField(
         OutlinedTextField(
             modifier = Modifier.width(330.dp),
             value = value,
-            onValueChange = { onValueChange },
+            onValueChange = onValueChange,
             label = { Text(text = label) },
             shape = RoundedCornerShape(8.dp),
+            maxLines = 1,
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun CommonTextFieldIcon(
+    value: String,
+    text: String,
+    onValueChange: (String) -> Unit,
+    label: String, icon: Painter,
+) {
+    Column {
+        Text(
+            text = text,
+            fontSize = 16.sp,
+            color = Color.Black,
+            fontFamily = FontFamily(Font(R.font.pretendard_medium))
+        )
+        OutlinedTextField(
+            modifier = Modifier.width(330.dp),
+            value = value,
+            onValueChange = onValueChange,
+            label = { Text(text = label) },
+            shape = RoundedCornerShape(8.dp),
+            trailingIcon = {
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    painter = icon,
+                    contentDescription = null,
+                )
+            },
             maxLines = 1,
         )
     }

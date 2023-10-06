@@ -292,7 +292,9 @@ private fun TextField() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CommonTextField(
-    value: String, text: String, onValueChange: () -> Unit, label: String
+    value: String,
+    text: String,
+    onValueChange: () -> Unit, label: String,
 ) {
     Column {
         Text(

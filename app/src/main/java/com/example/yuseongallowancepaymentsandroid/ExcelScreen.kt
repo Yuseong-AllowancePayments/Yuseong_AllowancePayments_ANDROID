@@ -3,6 +3,7 @@ package com.example.yuseongallowancepaymentsandroid
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,33 +44,71 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
-fun ExcelScreen(navController: NavController) {
+fun ExcelScreen(
+    navController: NavController,
+) {
     var value by remember { mutableStateOf("") }
+    var selectedButtonIndex by remember { mutableStateOf(0) }
+    val buttonTitles = listOf("참전유공자 명예 수당", "참전유공자 배우자 수당", "보훈 예우 수당")
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .background(Color.White)
-    ) {
-        TopAppBar()
-        Column(modifier = Modifier.horizontalScroll(rememberScrollState())) {
-            FieldTitle()
-            Field()
-            Field()
-            Field()
-            Field()
+
+    Box {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .background(Color.White)
+        ) {
+            MainTopAppBar(
+                text = when(selectedButtonIndex) {
+                    0 -> buttonTitles[0] + " 지급 대상자 조회"
+                    1 -> buttonTitles[1] + " 지급 대상자 조회"
+                    2 -> buttonTitles[2] + " 지급 대상자 조회"
+                    else -> {}
+                } as String
+            )
+            Column(modifier = Modifier.horizontalScroll(rememberScrollState())) {
+                FieldTitle()
+                for (i in 0..20) {
+                    Field()
+                }
+            }
+        }
+        Box(modifier = Modifier.align(Alignment.BottomCenter)) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 12.dp)
+                    .background(color = Color.White)
+                    .padding(12.dp),
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                buttonTitles.forEachIndexed { index, title ->
+                    ApplyButton(
+                        title = title,
+                        isSelected = index == selectedButtonIndex,
+                    ) {
+                        selectedButtonIndex = index
+                    }
+                }
+            }
         }
     }
 }
 
 @Composable
-private fun TopAppBar() {
+private fun MainTopAppBar(
+    text: String,
+) {
     Column(
-        modifier = Modifier.padding(start = 30.dp, top = 60.dp, end = 30.dp)
+        modifier = Modifier.padding(
+            start = 30.dp,
+            top = 60.dp,
+            end = 30.dp,
+        ),
     ) {
         Text(
-            text = "참전유공자 명예 수당 지급 대상자 조회",
+            text = text,
             color = Color.Black,
             fontSize = 36.sp,
             fontFamily = FontFamily(Font(R.font.pretendard_bold))
@@ -208,9 +248,11 @@ private fun Field() {
                 .background(color = Color.White)
         )
         ExcelBasicTextField(
-            value = address, onValueChange = { address = it }, width = 400.dp, defaultText = ""
+            value = address,
+            onValueChange = { address = it },
+            width = 400.dp,
+            defaultText = "",
         )
-
     }
 }
 
@@ -368,4 +410,45 @@ private fun ExcelBasicTextField(
                 innerTextField()
             }
         })
+}
+
+@Composable
+private fun ApplyButtonRow(
+    selectedIndex: Int,
+    onButtonSelected: (Int) -> Unit,
+) {
+
+}
+
+@Composable
+private fun ApplyButton(
+    title: String,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+) {
+    val borderColor = if (isSelected) Color.Blue else Color.LightGray
+    val backgroundColor = if (borderColor == Color.Blue) Color(0xFFE6F2FF) else Color.White
+    androidx.compose.material3.Button(
+        colors = ButtonDefaults.buttonColors(backgroundColor),
+        onClick = onClick,
+        modifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
+            .size(
+                width = 214.dp,
+                height = 80.dp,
+            )
+            .border(
+                width = 1.dp,
+                color = borderColor,
+                shape = RoundedCornerShape(8.dp),
+            )
+            .background(backgroundColor),
+    ) {
+        Text(
+            text = title,
+            color = borderColor,
+            fontSize = 16.sp,
+        )
+    }
+    Spacer(modifier = Modifier.size(20.dp))
 }

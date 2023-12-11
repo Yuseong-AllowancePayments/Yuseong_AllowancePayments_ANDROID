@@ -1,7 +1,9 @@
 package com.example.yuseongallowancepaymentsandroid
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -30,20 +32,23 @@ import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.yuseongallowancepaymentsandroid.navigation.AppNavigationItem
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun LoginScreen(navController: NavController) {
-    var accountId by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var showPassword by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val sharedPreferences = context.getSharedPreferences("my_shared_prefs", Context.MODE_PRIVATE)
+    val loginViewModel: LoginViewModel = viewModel()
     var pin by remember { mutableStateOf("") }
     Box(
         modifier = Modifier
@@ -116,45 +121,6 @@ fun LoginScreen(navController: NavController) {
                     }
                 }
             }
-//            Column {
-//                Spacer(modifier = Modifier.size(40.dp))
-//                Text(text = "아이디")
-//                OutlinedTextField(
-//                    value = accountId,
-//                    onValueChange = { accountId = it },
-//                    label = { Text(text = "아이디를 입력해주세요.") },
-//                    modifier = Modifier.fillMaxWidth()
-//                )
-//                Spacer(modifier = Modifier.size(20.dp))
-//                Text(text = "비밀번호")
-//                OutlinedTextField(
-//                    value = password,
-//                    onValueChange = { password = it },
-//                    label = { Text(text = "비밀번호를 입력해주세요.") },
-//                    modifier = Modifier.fillMaxWidth(),
-//                    visualTransformation = if (showPassword) {
-//                        VisualTransformation.None
-//                    } else {
-//                        PasswordVisualTransformation()
-//                    }, trailingIcon = {
-//                        if (showPassword) {
-//                            IconButton(onClick = { showPassword = false }) {
-//                                Icon(
-//                                    imageVector = Icons.Filled.Visibility,
-//                                    contentDescription = "visibility"
-//                                )
-//                            }
-//                        } else {
-//                            IconButton(onClick = { showPassword = true }) {
-//                                Icon(
-//                                    imageVector = Icons.Filled.VisibilityOff,
-//                                    contentDescription = "visibility"
-//                                )
-//                            }
-//                        }
-//                    }
-//                )
-//                Spacer(modifier = Modifier.size(40.dp))
             Button(
                 onClick = { /*TODO*/ },
                 colors = ButtonDefaults.buttonColors(Color(0xFF0F5EB8)),
@@ -163,11 +129,16 @@ fun LoginScreen(navController: NavController) {
                     .clip(RoundedCornerShape(8.dp))
                     .fillMaxWidth()
                     .align(Alignment.CenterHorizontally)
-                    .background(Color(0xFF0F5EB8)),
+                    .background(Color(0xFF0F5EB8))
+                    .clickable {
+                        loginViewModel.loginWithPin(pin, sharedPreferences)
+                        if (loginViewModel.token.isNotBlank()) {
+                            navController.navigate(AppNavigationItem.Excel.route) { popUpTo(0) }
+                        }
+                    },
             ) {
                 Text(text = "로그인")
             }
-//            }
         }
     }
 }

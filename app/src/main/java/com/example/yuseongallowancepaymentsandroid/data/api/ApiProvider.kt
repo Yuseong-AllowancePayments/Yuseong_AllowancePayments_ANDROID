@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiProvider {
 
-    private var BASE_URL = "http:://3.34.137.58:8080/"
+    private var BASE_URL = "http://3.34.137.58:8080/"
 
     private lateinit var sharedPreferences: SharedPreferences
 

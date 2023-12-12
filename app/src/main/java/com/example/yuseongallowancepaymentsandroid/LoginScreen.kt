@@ -1,6 +1,7 @@
 package com.example.yuseongallowancepaymentsandroid
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -122,20 +123,20 @@ fun LoginScreen(navController: NavController) {
                 }
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    Log.d("pin",pin)
+                    loginViewModel.loginWithPin(pin, sharedPreferences)
+                    if (loginViewModel.token.isNotBlank()) {
+                        navController.navigate(AppNavigationItem.Excel.route) { popUpTo(0) }
+                    }
+                },
                 colors = ButtonDefaults.buttonColors(Color(0xFF0F5EB8)),
                 modifier = Modifier
                     .padding(top = 72.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .fillMaxWidth()
                     .align(Alignment.CenterHorizontally)
-                    .background(Color(0xFF0F5EB8))
-                    .clickable {
-                        loginViewModel.loginWithPin(pin, sharedPreferences)
-                        if (loginViewModel.token.isNotBlank()) {
-                            navController.navigate(AppNavigationItem.Excel.route) { popUpTo(0) }
-                        }
-                    },
+                    .background(Color(0xFF0F5EB8)),
             ) {
                 Text(text = "로그인")
             }

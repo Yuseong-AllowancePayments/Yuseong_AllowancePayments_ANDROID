@@ -15,13 +15,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -47,8 +44,29 @@ import androidx.navigation.NavController
 
 
 @Composable
-fun ApplicationFormScreen(navController: NavController) {
-    TopAppBar("참전유공자 명예 수당 지급 신청서 작성")
+fun HonorApplicationFormScreen(
+    navController: NavController,
+) {
+    var name by remember { mutableStateOf("") }
+    var idCard by remember { mutableStateOf("") }
+    var honorNumber by remember { mutableStateOf("") }
+    var acquisitionDate by remember { mutableStateOf("") }
+    var applicationDate by remember { mutableStateOf("") }
+    var moveInDate by remember { mutableStateOf("") }
+    // var moveOutDate by remember { mutableStateOf("") }
+    var address by remember { mutableStateOf("") }
+    // var administrativeBuilding by remember { mutableStateOf("") }
+    var depositType by remember { mutableStateOf("") }
+    var bankName by remember { mutableStateOf("") }
+    var accountHolder by remember { mutableStateOf("") }
+    var accountNumber by remember { mutableStateOf("") }
+    // var cityBudget by remember { mutableStateOf("") }
+    // var districtBudget by remember { mutableStateOf("") }
+    // var retroactivePaymentMatter by remember { mutableStateOf("") }
+
+    MainTopAppBar(
+        title = "참전유공자 명예 수당 지급 신청서 작성",
+    )
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,7 +75,7 @@ fun ApplicationFormScreen(navController: NavController) {
     ) {
         Spacer(modifier = Modifier.height(30.dp))
         TextField()
-        Button(onClick = { /*TODO*/ })
+        Button(onClick = {  })
         Spacer(modifier = Modifier.height(30.dp))
     }
 }
@@ -65,8 +83,8 @@ fun ApplicationFormScreen(navController: NavController) {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopAppBar(
-    title: String
+private fun MainTopAppBar(
+    title: String,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
@@ -86,14 +104,14 @@ private fun TopAppBar(
                         overflow = TextOverflow.Ellipsis,
                     )
                 },
-                navigationIcon = {
-                    IconButton(onClick = { /* do something */ }) {
+                /*navigationIcon = {
+                    IconButton(onClick = onClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Localized description"
                         )
                     }
-                },
+                },*/
                 scrollBehavior = scrollBehavior,
             )
         },
@@ -207,28 +225,7 @@ private fun TextField() {
             onValueChange = { moveInDate = it },
             label = "전입일을 선택해주세요.",
             icon = painterResource(id = R.drawable.ic_calendar),
-        )/*Column {
-            Text(
-                text = "전출일",
-                fontSize = 16.sp,
-                color = Color.Black,
-                fontFamily = FontFamily(Font(R.font.pretendard_medium)),
-            )
-            OutlinedTextField(
-                value = moveOutDate,
-                onValueChange = { moveOutDate = it },
-                label = { Text(text = "전출일을 선택해주세요.") },
-                shape = RoundedCornerShape(8.dp),
-                trailingIcon = {
-                    Icon(
-                        modifier = Modifier.size(24.dp),
-                        painter = painterResource(id = R.drawable.ic_calendar),
-                        contentDescription = null,
-                    )
-                },
-                maxLines = 1,
-            )
-        }*/
+        )
     }
     Spacer(modifier = Modifier.height(106.dp))
     Row(
@@ -240,21 +237,7 @@ private fun TextField() {
             text = "주소",
             onValueChange = { address = it },
             label = "도로명 주소를 입력해주세요.",
-        )/*Column {
-                Text(
-                    text = "행정동",
-                    fontSize = 16.sp,
-                    color = Color.Black,
-                    fontFamily = FontFamily(Font(R.font.pretendard_medium))
-                )
-                OutlinedTextField(
-                    value = administrativeBuilding,
-                    onValueChange = { administrativeBuilding = it },
-                    label = { Text(text = "주소를 입력하시면 자동 입력됩니다.") },
-                    shape = RoundedCornerShape(8.dp),
-                    maxLines = 1,
-                )
-            }*/
+        )
     }
     Spacer(modifier = Modifier.height(40.dp))
     Row(

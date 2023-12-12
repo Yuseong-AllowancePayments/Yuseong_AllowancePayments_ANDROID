@@ -31,10 +31,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.room.Room
+import com.example.yuseongallowancepaymentsandroid.database.ApplicationDatabase
+
+val buttonTitles = listOf("참전유공자 명예 수당", "참전유공자 배우자 수당", "보훈 예우 수당")
 
 @Composable
-fun ApplyScreen(navController: NavController) {
+fun ApplyScreen(
+    navController: NavController,
+    moveToHonor: () -> Unit,
+    moveToPartner: () -> Unit,
+    moveToCourtesy: () -> Unit,
+) {
     var selectedButtonIndex by remember { mutableStateOf(0) }
+
 
     Box(
         modifier = Modifier
@@ -75,7 +85,13 @@ fun ApplyScreen(navController: NavController) {
             }
             Spacer(modifier = Modifier.size(50.dp))
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {
+                          when(selectedButtonIndex) {
+                              0 -> moveToHonor()
+                              1 -> moveToPartner()
+                              2 -> moveToCourtesy()
+                          }
+                },
                 colors = ButtonDefaults.buttonColors(Color(0xFF0F5EB8)),
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
@@ -91,12 +107,10 @@ fun ApplyScreen(navController: NavController) {
 }
 
 @Composable
-fun ApplyButtonsRow(
+private fun ApplyButtonsRow(
     selectedIndex: Int,
     onButtonSelected: (Int) -> Unit,
 ) {
-    val buttonTitles = listOf("참전유공자 명예 수당", "참전유공자 배우자 수당", "보훈 예우 수당")
-
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
@@ -113,7 +127,7 @@ fun ApplyButtonsRow(
 }
 
 @Composable
-fun ApplyButton(
+private fun ApplyButton(
     title: String,
     isSelected: Boolean,
     onClick: () -> Unit,
@@ -134,7 +148,7 @@ fun ApplyButton(
         Text(
             text = title,
             color = borderColor,
-            fontSize = 16.sp
+            fontSize = 16.sp,
         )
     }
     Spacer(modifier = Modifier.size(20.dp))

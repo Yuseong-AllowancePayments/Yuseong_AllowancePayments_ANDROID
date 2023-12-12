@@ -9,4 +9,7 @@ sealed class AppNavigationItem(val route: String) {
     object Login: AppNavigationItem("login")
 
     object Excel: AppNavigationItem("excel")
+    object Honor: AppNavigationItem("honor")
+    object Partner: AppNavigationItem("partner")
+    object Courtesy: AppNavigationItem("courtesy")
 }

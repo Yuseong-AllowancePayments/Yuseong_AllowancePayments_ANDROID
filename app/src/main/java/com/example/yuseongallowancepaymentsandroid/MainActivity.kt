@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.yuseongallowancepaymentsandroid.data.api.ApiProvider
 import com.example.yuseongallowancepaymentsandroid.navigation.AppNavigationItem
 import com.example.yuseongallowancepaymentsandroid.ui.theme.YuseongAllowancePaymentsANDROIDTheme
 
@@ -16,19 +16,20 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             YuseongAllowancePaymentsANDROIDTheme {
-                    BaseApp()
+                BaseApp()
             }
         }
+        ApiProvider.initialize(applicationContext)
     }
 
     @Composable
     fun BaseApp() {
         val navController = rememberNavController()
-        NavHost(navController = navController, startDestination = AppNavigationItem.Apply.route) {
+        NavHost(navController = navController, startDestination = AppNavigationItem.Login.route) {
             composable(AppNavigationItem.Apply.route) {
                 ApplyScreen(navController = navController)
             }
-            
+
             composable(AppNavigationItem.Login.route) {
                 LoginScreen(navController = navController)
             }

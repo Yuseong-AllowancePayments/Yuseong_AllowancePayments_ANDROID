@@ -30,6 +30,7 @@ class MainActivity : ComponentActivity() {
             navController = navController,
             startDestination = AppNavigationItem.Apply.route,
         ){
+        NavHost(navController = navController, startDestination = AppNavigationItem.Apply.route) {
             composable(AppNavigationItem.Apply.route) {
                 ApplyScreen(
                     navController = navController,

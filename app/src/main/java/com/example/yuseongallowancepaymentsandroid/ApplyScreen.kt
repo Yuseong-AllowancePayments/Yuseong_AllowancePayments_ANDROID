@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.room.Room
 import com.example.yuseongallowancepaymentsandroid.database.ApplicationDatabase
+import com.example.yuseongallowancepaymentsandroid.navigation.AppNavigationItem
 
 val buttonTitles = listOf("참전유공자 명예 수당", "참전유공자 배우자 수당", "보훈 예우 수당")
 
@@ -65,7 +66,9 @@ fun ApplyScreen(
                     textAlign = TextAlign.Start
                 )
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        navController.navigate(AppNavigationItem.Login.route) { popUpTo(0) }
+                    },
                     modifier = Modifier
                         .clip(RoundedCornerShape(8.dp))
                         .width(140.dp)

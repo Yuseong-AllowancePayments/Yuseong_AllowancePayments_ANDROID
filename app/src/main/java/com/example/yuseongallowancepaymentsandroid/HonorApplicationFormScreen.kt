@@ -34,7 +34,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
@@ -75,7 +74,7 @@ fun HonorApplicationFormScreen(
     ) {
         Spacer(modifier = Modifier.height(30.dp))
         TextField()
-        Button(onClick = {  })
+        Button(onClick = { })
         Spacer(modifier = Modifier.height(30.dp))
     }
 }
@@ -145,7 +144,7 @@ private fun MainTopAppBar(
 @Composable
 private fun TextField() {
     var name by remember { mutableStateOf("") }
-    var idCard by remember { mutableStateOf("") }
+    var birth by remember { mutableStateOf("") }
     var veteranNumber by remember { mutableStateOf("") }
     var acquisitionDate by remember { mutableStateOf("") }
     var applicationDate by remember { mutableStateOf("") }
@@ -154,7 +153,7 @@ private fun TextField() {
     var address by remember { mutableStateOf("") }
     // var administrativeBuilding by remember { mutableStateOf("") }
     var depositType by remember { mutableStateOf("") }
-    var bankName by remember { mutableStateOf("") }
+    var phone by remember { mutableStateOf("") }
     var accountHolder by remember { mutableStateOf("") }
     var accountNumber by remember { mutableStateOf("") }
     // var cityBudget by remember { mutableStateOf("") }
@@ -173,70 +172,28 @@ private fun TextField() {
             label = "성명을 입력해주세요",
         )
         CommonTextField(
-            value = idCard,
-            text = "주민등록번호",
-            onValueChange = { idCard = it },
-            label = "주민등록번호를 입력해주세요",
+            value = birth,
+            text = "생년월일",
+            onValueChange = { birth = it },
+            label = "생년월일을 입력해주세요. 예)2023-01-01",
         )
     }
     Spacer(modifier = Modifier.height(40.dp))
-    Text(
-        text = "보훈 번호",
-        fontSize = 16.sp,
-        color = Color.Black,
-        fontFamily = FontFamily(Font(R.font.pretendard_medium)),
-    )
-    OutlinedTextField(
-        modifier = Modifier.width(330.dp),
-        value = veteranNumber,
-        onValueChange = { veteranNumber = it },
-        label = { Text(text = "보훈 번호를 입력해주세요.") },
-        shape = RoundedCornerShape(8.dp),
-        maxLines = 1,
-    )
-    Spacer(modifier = Modifier.height(40.dp))
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        CommonTextFieldIcon(
-            value = acquisitionDate,
-            text = "보훈 자격 취득일",
-            onValueChange = { acquisitionDate = it },
-            label = "보훈 자격 취득일을 선택해주세요.",
-            icon = painterResource(id = R.drawable.ic_calendar),
-        )
-        CommonTextFieldIcon(
-            value = applicationDate,
-            text = "보훈 수당 신청일",
-            onValueChange = { applicationDate = it },
-            label = "보훈 수당 신청일을 선택해주세요.",
-            icon = painterResource(id = R.drawable.ic_calendar),
-        )
-    }
-    Spacer(modifier = Modifier.height(40.dp))
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        CommonTextFieldIcon(
-            value = moveInDate,
-            text = "전입일",
-            onValueChange = { moveInDate = it },
-            label = "전입일을 선택해주세요.",
-            icon = painterResource(id = R.drawable.ic_calendar),
-        )
-    }
-    Spacer(modifier = Modifier.height(106.dp))
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         CommonTextField(
+            value = acquisitionDate,
+            text = "우편번호",
+            onValueChange = { acquisitionDate = it },
+            label = "주소를 입력하면 자동 입력됩니다.",
+        )
+        CommonTextField(
             value = address,
             text = "주소",
             onValueChange = { address = it },
-            label = "도로명 주소를 입력해주세요.",
+            label = "주소를 입력해주세요",
         )
     }
     Spacer(modifier = Modifier.height(40.dp))
@@ -246,15 +203,15 @@ private fun TextField() {
     ) {
         CommonTextField(
             value = depositType,
-            text = "입금 유형",
+            text = "참전 등록 번호",
             onValueChange = { depositType = it },
-            label = "입금 유형을 입력해주세요."
+            label = "참전 등록 번호를 입력해주세요."
         )
         CommonTextField(
-            value = bankName,
-            text = "은행명",
-            onValueChange = { bankName = it },
-            label = "은행명을 입력해주세요.",
+            value = phone,
+            text = "전화번호",
+            onValueChange = { phone = it },
+            label = "전화번호를 입력해주세요.",
         )
     }
     Spacer(modifier = Modifier.height(40.dp))
@@ -264,9 +221,27 @@ private fun TextField() {
     ) {
         CommonTextField(
             value = accountHolder,
-            text = "예금주",
+            text = "금융 기관",
             onValueChange = { accountHolder = it },
-            "예금주 성명을 입력해주세요.",
+            "금융 기관을 입력해주세요.",
+        )
+        CommonTextField(
+            value = accountNumber,
+            text = "예금 종류",
+            onValueChange = { accountNumber = it },
+            label = "예금 종류를 입력해주세요.",
+        )
+    }
+    Spacer(modifier = Modifier.height(50.dp))
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        CommonTextField(
+            value = accountHolder,
+            text = "예금주 성명",
+            onValueChange = { accountHolder = it },
+            "예금주 성명을 입력해주세요",
         )
         CommonTextField(
             value = accountNumber,
@@ -310,7 +285,8 @@ private fun CommonTextFieldIcon(
     value: String,
     text: String,
     onValueChange: (String) -> Unit,
-    label: String, icon: Painter,
+    label: String,
+    icon: Painter,
 ) {
     Column {
         Text(

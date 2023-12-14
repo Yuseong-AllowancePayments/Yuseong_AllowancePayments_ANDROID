@@ -53,7 +53,7 @@ fun PartnerApplicationFormScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .padding(start = 30.dp, top = 60.dp, end = 30.dp)
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(rememberScrollState()),
     ) {
         Spacer(modifier = Modifier.height(30.dp))
         TextField()
@@ -150,75 +150,33 @@ private fun TextField() {
     ) {
         CommonTextField(
             value = name,
-            text = "성명",
+            text = "신청인 성명",
             onValueChange = { name = it },
-            label = "성명을 입력해주세요",
+            label = "신청인 성명을 입력해주세요",
         )
         CommonTextField(
             value = idCard,
-            text = "주민등록번호",
+            text = "신청인 주민등록번호",
             onValueChange = { idCard = it },
-            label = "주민등록번호를 입력해주세요",
+            label = "신청인 주민등록번호를 입력해주세요",
         )
     }
     Spacer(modifier = Modifier.height(40.dp))
-    Text(
-        text = "보훈 번호",
-        fontSize = 16.sp,
-        color = Color.Black,
-        fontFamily = FontFamily(Font(R.font.pretendard_medium)),
-    )
-    OutlinedTextField(
-        modifier = Modifier.width(330.dp),
-        value = veteranNumber,
-        onValueChange = { veteranNumber = it },
-        label = { Text(text = "보훈 번호를 입력해주세요.") },
-        shape = RoundedCornerShape(8.dp),
-        maxLines = 1,
-    )
-    Spacer(modifier = Modifier.height(40.dp))
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        CommonTextFieldIcon(
-            value = acquisitionDate,
-            text = "보훈 자격 취득일",
-            onValueChange = { acquisitionDate = it },
-            label = "보훈 자격 취득일을 선택해주세요.",
-            icon = painterResource(id = R.drawable.ic_calendar),
-        )
-        CommonTextFieldIcon(
-            value = applicationDate,
-            text = "보훈 수당 신청일",
-            onValueChange = { applicationDate = it },
-            label = "보훈 수당 신청일을 선택해주세요.",
-            icon = painterResource(id = R.drawable.ic_calendar),
-        )
-    }
-    Spacer(modifier = Modifier.height(40.dp))
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        CommonTextFieldIcon(
-            value = moveInDate,
-            text = "전입일",
-            onValueChange = { moveInDate = it },
-            label = "전입일을 선택해주세요.",
-            icon = painterResource(id = R.drawable.ic_calendar),
-        )
-    }
-    Spacer(modifier = Modifier.height(106.dp))
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         CommonTextField(
-            value = address,
-            text = "주소",
-            onValueChange = { address = it },
-            label = "도로명 주소를 입력해주세요.",
+            value = acquisitionDate,
+            text = "우편 번호",
+            onValueChange = { acquisitionDate = it },
+            label = "주소를 입력하면 자동 입력됩니다.",
+        )
+        CommonTextField(
+            value = applicationDate,
+            text = "신청인 주소",
+            onValueChange = { applicationDate = it },
+            label = "신청인 주소를 입력해주세요.",
         )
     }
     Spacer(modifier = Modifier.height(40.dp))
@@ -228,14 +186,50 @@ private fun TextField() {
     ) {
         CommonTextField(
             value = depositType,
-            text = "입금 유형",
+            text = "구분",
             onValueChange = { depositType = it },
-            label = "입금 유형을 입력해주세요."
+            label = "6.25 참전 또는 월남참전을 입력해주세요."
         )
         CommonTextField(
             value = bankName,
-            text = "은행명",
+            text = "참전유공자 성명",
             onValueChange = { bankName = it },
+            label = "참전유공자 성명을 입력해주세요.",
+        )
+    }
+    Spacer(modifier = Modifier.height(40.dp))
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        CommonTextField(
+            value = accountHolder,
+            text = "보훈번호",
+            onValueChange = { accountHolder = it },
+            "참전유공자의 보훈번호를 입력해주세요.",
+        )
+        CommonTextField(
+            value = accountNumber,
+            text = "참전유공자 주민등록번호",
+            onValueChange = { accountNumber = it },
+            label = "참전유공자의 주민등록번호를 입력해주세요.",
+        )
+    }
+    Spacer(modifier = Modifier.height(40.dp))
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        CommonTextField(
+            value = accountHolder,
+            text = "참전유공자의 사망일자",
+            onValueChange = { accountHolder = it },
+            "참전유공자의 사망일자를 입력해주세요. ex)2023-01-01",
+        )
+        CommonTextField(
+            value = accountNumber,
+            text = "은행명",
+            onValueChange = { accountNumber = it },
             label = "은행명을 입력해주세요.",
         )
     }

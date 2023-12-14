@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.yuseongallowancepaymentsandroid.navigation.AppNavigationItem
 
 @Composable
 fun ApplyScreen(navController: NavController) {
@@ -55,7 +56,9 @@ fun ApplyScreen(navController: NavController) {
                     textAlign = TextAlign.Start
                 )
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        navController.navigate(AppNavigationItem.Login.route) { popUpTo(0) }
+                    },
                     modifier = Modifier
                         .clip(RoundedCornerShape(8.dp))
                         .width(140.dp)

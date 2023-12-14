@@ -3,13 +3,11 @@ package com.example.yuseongallowancepaymentsandroid
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -19,6 +17,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
@@ -43,7 +42,29 @@ import androidx.navigation.NavController
 
 @Composable
 fun ExcelScreen(navController: NavController) {
-    var value by remember { mutableStateOf("") }
+    var state by remember { mutableStateOf(0) }
+
+    val list = listOf(
+        listOf(
+            "연번", "행정동", "보훈번호", "성명", "주민등록번호",
+            "주소", "입금유형", "은행명", "예금주", "계좌번호", "시비",
+            "구비", "전입일", "비고",
+        ),
+        listOf(
+            "연번", "행정동", "보훈번호", "성명", "주민등록번호",
+            "주소", "입금유형", "시비", "구비", "비고",
+        ),
+        listOf(
+            "연번", "행정동", "보훈번호", "성명", "주민등록번호",
+            "주소", "입금유형", "은행명", "예금주", "계좌번호",
+            "신규사유", "전입(등록)일", "비고",
+        ),
+        listOf(
+            "연번", "행정동", "보훈번호", "성명", "주민등록번호",
+            "주소", "지급방법", "은행명", "예금주", "계좌번호",
+            "중단사유", "중단사유 발생일", "비고", "전입지 주소",
+        )
+    )
 
     Column(
         modifier = Modifier
@@ -52,12 +73,47 @@ fun ExcelScreen(navController: NavController) {
             .background(Color.White)
     ) {
         TopAppBar()
+        Row {
+            TabRowMenu(
+                state = state,
+                stateChange = { state = it }
+            )
+            androidx.compose.material3.Button(
+                modifier = Modifier
+                    .height(40.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .align(Alignment.CenterVertically)
+                    .padding(end = 64.dp),
+                onClick = { /*TODO*/ },
+                colors = ButtonDefaults.buttonColors(Color(0xFF2F68C2))
+            ) {
+                Text(
+                    text = "엑셀파일 출력",
+                    fontFamily = FontFamily(Font(R.font.pretendard_medium)),
+                )
+            }
+        }
         Column(modifier = Modifier.horizontalScroll(rememberScrollState())) {
-            FieldTitle()
-            Field()
-            Field()
-            Field()
-            Field()
+            FieldTitle(list = list[state])
+            for (i in 0..30) {
+                Row {
+                    list[state].forEachIndexed { _, s ->
+                        var text by remember { mutableStateOf("") }
+                        ExcelBasicTextField(
+                            value = text,
+                            onValueChange = {
+                                text = it
+                            },
+                            width = (s.length * 40).dp,
+                        )
+                        Divider(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .width(1.dp)
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -81,29 +137,14 @@ private fun TopAppBar() {
             fontFamily = FontFamily(Font(R.font.pretendard_regular)),
         )
         Spacer(modifier = Modifier.height(24.dp))
-        Row {
-            TabRowMenu()
-            androidx.compose.material3.Button(
-                modifier = Modifier
-                    .height(40.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .align(Alignment.CenterVertically)
-                    .padding(end = 64.dp),
-                onClick = { /*TODO*/ },
-                colors = ButtonDefaults.buttonColors(Color(0xFF2F68C2))
-            ) {
-                Text(
-                    text = "엑셀파일 출력",
-                    fontFamily = FontFamily(Font(R.font.pretendard_medium)),
-                )
-            }
-        }
     }
 }
 
 @Composable
-private fun TabRowMenu() {
-    var state by remember { mutableStateOf(0) }
+private fun TabRowMenu(
+    state: Int,
+    stateChange: (Int) -> Unit
+) {
     val titles = listOf("대상자 현황", "현금 지급", "신규자", "지급중지자")
 
     ScrollableTabRow(
@@ -117,7 +158,9 @@ private fun TabRowMenu() {
             val textColor = if (state == index) Color(0xFF2F68C2) else Color.Black
             Tab(
                 selected = state == index,
-                onClick = { state = index },
+                onClick = {
+                    stateChange(index)
+                },
                 text = {
                     Text(
                         text = title,
@@ -134,197 +177,27 @@ private fun TabRowMenu() {
 }
 
 @Composable
-private fun Field() {
-    var number by remember { mutableStateOf("") }
-    var administrativeBuilding by remember { mutableStateOf("") }
-    var veteransAffairsNumber by remember { mutableStateOf("") }
-    var name by remember { mutableStateOf("") }
-    var birth by remember { mutableStateOf("") }
-    var address by remember { mutableStateOf("") }
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 30.dp)
-    ) {
-        ExcelBasicTextField(
-            value = number,
-            onValueChange = { number = it },
-            width = 100.dp,
-            defaultText = "",
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(1.dp)
-                .background(color = Color.White)
-        )
-        ExcelBasicTextField(
-            value = administrativeBuilding,
-            onValueChange = { administrativeBuilding = it },
-            width = 160.dp,
-            defaultText = "",
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(1.dp)
-                .background(color = Color.White)
-        )
-        ExcelBasicTextField(
-            value = veteransAffairsNumber,
-            onValueChange = { veteransAffairsNumber = it },
-            width = 120.dp,
-            defaultText = "",
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(1.dp)
-                .background(color = Color.White)
-        )
-        ExcelBasicTextField(
-            value = name,
-            onValueChange = { name = it },
-            width = 100.dp,
-            defaultText = "",
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(1.dp)
-                .background(color = Color.White)
-        )
-        ExcelBasicTextField(
-            value = birth,
-            onValueChange = { birth = it },
-            width = 180.dp,
-            defaultText = "",
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(1.dp)
-                .background(color = Color.White)
-        )
-        ExcelBasicTextField(
-            value = address, onValueChange = { address = it }, width = 400.dp, defaultText = ""
-        )
-
-    }
-}
-
-@Composable
-private fun FieldTitle() {
+private fun FieldTitle(list: List<String>) {
     Spacer(modifier = Modifier.height(36.dp))
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 30.dp),
-    ) {
-        Text(
-            modifier = Modifier
-                .background(Color(0xFF2F68C2), RoundedCornerShape(topStart = 12.dp))
-                .width(100.dp)
-                .height(56.dp)
-                .padding(start = 20.dp, top = 17.5.dp, bottom = 17.5.dp),
-            text = "연번",
-            color = Color.White,
-            fontFamily = FontFamily(Font(R.font.pretendard_medium)),
-            fontSize = 16.sp,
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(1.dp)
-                .background(color = Color.White)
-        )
-        Text(
-            modifier = Modifier
-                .background(Color(0xFF2F68C2))
-                .width(160.dp)
-                .height(56.dp)
-                .padding(start = 20.dp, top = 17.5.dp, bottom = 17.5.dp),
-            text = "행정동",
-            color = Color.White,
-            fontFamily = FontFamily(Font(R.font.pretendard_medium)),
-            fontSize = 16.sp,
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(1.dp)
-                .background(color = Color.White)
-        )
-        Text(
-            modifier = Modifier
-                .background(Color(0xFF2F68C2))
-                .width(120.dp)
-                .height(56.dp)
-                .padding(start = 20.dp, top = 17.5.dp, bottom = 17.5.dp),
-            text = "보훈번호",
-            color = Color.White,
-            fontFamily = FontFamily(Font(R.font.pretendard_medium)),
-            fontSize = 16.sp,
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(1.dp)
-                .background(color = Color.White)
-        )
-        Text(
-            modifier = Modifier
-                .background(Color(0xFF2F68C2))
-                .width(100.dp)
-                .height(56.dp)
-                .padding(start = 20.dp, top = 17.5.dp, bottom = 17.5.dp),
-            text = "성명",
-            color = Color.White,
-            fontFamily = FontFamily(Font(R.font.pretendard_medium)),
-            fontSize = 16.sp,
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(1.dp)
-                .background(color = Color.White)
-        )
-        Text(
-            modifier = Modifier
-                .background(Color(0xFF2F68C2))
-                .width(180.dp)
-                .height(56.dp)
-                .padding(start = 20.dp, top = 17.5.dp, bottom = 17.5.dp)
-                .align(Alignment.CenterVertically),
-            text = "주민등록번호",
-            color = Color.White,
-            fontFamily = FontFamily(Font(R.font.pretendard_medium)),
-            fontSize = 16.sp,
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(1.dp)
-                .background(color = Color.White)
-        )
-        Text(
-            modifier = Modifier
-                .background(Color(0xFF2F68C2))
-                .width(400.dp)
-                .height(56.dp)
-                .padding(start = 20.dp, top = 17.5.dp, bottom = 17.5.dp),
-            text = "주소",
-            color = Color.White,
-            fontFamily = FontFamily(Font(R.font.pretendard_medium)),
-            fontSize = 16.sp,
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(1.dp)
-                .background(color = Color.White)
-        )
+    Row {
+        list.forEach {
+            Text(
+                modifier = Modifier
+                    .background(Color(0xFF2F68C2), RoundedCornerShape(topStart = 12.dp))
+                    .width((it.length * 40).dp)
+                    .height(56.dp)
+                    .padding(start = 20.dp, top = 17.5.dp, bottom = 17.5.dp),
+                text = it,
+                color = Color.White,
+                fontFamily = FontFamily(Font(R.font.pretendard_medium)),
+                fontSize = 16.sp,
+            )
+            Divider(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(1.dp)
+            )
+        }
     }
 }
 
@@ -333,7 +206,6 @@ private fun ExcelBasicTextField(
     value: String,
     onValueChange: (String) -> Unit,
     width: Dp,
-    defaultText: String?,
 ) {
     BasicTextField(value = value,
         onValueChange = onValueChange,
@@ -355,17 +227,18 @@ private fun ExcelBasicTextField(
                         width = 1.dp,
                         color = Color(0xFFE5E6E5),
                     )
-                    .padding(all = 16.dp), // inner padding
+                    .padding(all = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 if (value.isEmpty()) {
                     Text(
-                        text = "$defaultText",
+                        text = "",
                         fontSize = 16.sp,
                         color = Color.Black,
                     )
                 }
                 innerTextField()
             }
-        })
+        }
+    )
 }

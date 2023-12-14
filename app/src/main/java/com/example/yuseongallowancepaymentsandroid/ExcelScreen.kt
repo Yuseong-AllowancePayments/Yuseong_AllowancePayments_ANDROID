@@ -3,6 +3,7 @@ package com.example.yuseongallowancepaymentsandroid
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -117,6 +117,56 @@ fun ExcelScreen(navController: NavController) {
                     }
                 }
             }
+        }
+    }
+    var honerSelect by remember { mutableStateOf(false) }
+    var spouseSelect by remember { mutableStateOf(false) }
+    var courtesySelect by remember { mutableStateOf(false) }
+
+    Box(
+        modifier = Modifier
+            .padding(12.dp)
+            .fillMaxSize(),
+        contentAlignment = Alignment.BottomCenter,
+    ) {
+        Row(
+            modifier = Modifier
+                .clip(RoundedCornerShape(24.dp))
+                .fillMaxWidth()
+                .background(Color(0xFFF5F2F2))
+                .padding(horizontal = 12.dp, vertical = 12.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            ApplyButton(
+                modifier = Modifier.weight(1f),
+                title = "참전유공자 명예 수당",
+                isSelected = honerSelect,
+                onClick = {
+                    honerSelect = true
+                    spouseSelect = false
+                    courtesySelect = false
+                },
+            )
+            ApplyButton(
+                modifier = Modifier.weight(1f),
+                title = "참전유공자 배우자 수당",
+                isSelected = spouseSelect,
+                onClick = {
+                    honerSelect = false
+                    spouseSelect = true
+                    courtesySelect = false
+                },
+            )
+            ApplyButton(
+                modifier = Modifier.weight(1f),
+                title = "보훈 예우 수당",
+                isSelected = courtesySelect,
+                onClick = {
+                    honerSelect = false
+                    spouseSelect = false
+                    courtesySelect = true
+                },
+            )
         }
     }
 }
@@ -251,34 +301,31 @@ private fun ExcelBasicTextField(
 
 @Composable
 private fun ApplyButton(
+    modifier: Modifier,
     title: String,
     isSelected: Boolean,
     onClick: () -> Unit,
 ) {
     val borderColor = if (isSelected) Color.Blue else Color.LightGray
-    val textColor = if (isSelected) Color.Blue else Color.Gray
     val backgroundColor = if (borderColor == Color.Blue) Color(0xFFE6F2FF) else Color.White
     androidx.compose.material3.Button(
         colors = ButtonDefaults.buttonColors(backgroundColor),
         onClick = onClick,
-        modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
-            .size(
-                width = 204.dp,
-                height = 76.dp,
-            )
+        modifier = modifier
+            .padding(horizontal = 4.dp)
+            .clip(RoundedCornerShape(24.dp))
+            .height(80.dp)
             .border(
                 width = 1.dp,
                 color = borderColor,
-                shape = RoundedCornerShape(8.dp),
+                shape = RoundedCornerShape(24.dp),
             )
             .background(backgroundColor),
     ) {
         Text(
             text = title,
-            color = textColor,
+            color = borderColor,
             fontSize = 16.sp,
         )
     }
-    Spacer(modifier = Modifier.size(20.dp))
 }

@@ -2,6 +2,7 @@ package com.example.yuseongallowancepaymentsandroid
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,13 +16,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -32,12 +30,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
@@ -47,8 +45,8 @@ import androidx.navigation.NavController
 
 
 @Composable
-fun ApplicationFormScreen(navController: NavController) {
-    TopAppBar("참전유공자 명예 수당 지급 신청서 작성")
+fun CourtesyApplicationFormScreen(navController: NavController) {
+    MainTopAppBar(title = "보훈 예우 수당 지급 신청서 작성")
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -65,8 +63,8 @@ fun ApplicationFormScreen(navController: NavController) {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopAppBar(
-    title: String
+private fun MainTopAppBar(
+    title: String,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
@@ -86,14 +84,16 @@ private fun TopAppBar(
                         overflow = TextOverflow.Ellipsis,
                     )
                 },
-                navigationIcon = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
+                /*navigationIcon = {
+                    IconButton(onClick = { */
+                /* do something */
+                /* }) {
+                                        Icon(
+                                            imageVector = Icons.Filled.ArrowBack,
+                                            contentDescription = "Localized description"
+                                        )
+                                    }
+                                },*/
                 scrollBehavior = scrollBehavior,
             )
         },
@@ -150,128 +150,105 @@ private fun TextField() {
     ) {
         CommonTextField(
             value = name,
-            text = "성명",
+            text = "보훈대상자 구분",
             onValueChange = { name = it },
-            label = "성명을 입력해주세요",
+            label = "구분을 입력해주세요",
+            width = 400.dp,
         )
         CommonTextField(
             value = idCard,
-            text = "주민등록번호",
+            text = "보훈 번호",
             onValueChange = { idCard = it },
-            label = "주민등록번호를 입력해주세요",
+            label = "보훈 번호를 입력해주세요",
+            width = 400.dp,
         )
     }
     Spacer(modifier = Modifier.height(40.dp))
     Text(
-        text = "보훈 번호",
+        text = "우편번호",
         fontSize = 16.sp,
         color = Color.Black,
-        fontFamily = FontFamily(Font(R.font.pretendard_medium)),
+        fontFamily = FontFamily(Font(R.font.pretendard_medium))
     )
-    OutlinedTextField(
-        modifier = Modifier.width(330.dp),
-        value = veteranNumber,
-        onValueChange = { veteranNumber = it },
-        label = { Text(text = "보훈 번호를 입력해주세요.") },
-        shape = RoundedCornerShape(8.dp),
-        maxLines = 1,
-    )
-    Spacer(modifier = Modifier.height(40.dp))
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        CommonTextFieldIcon(
-            value = acquisitionDate,
-            text = "보훈 자격 취득일",
-            onValueChange = { acquisitionDate = it },
-            label = "보훈 자격 취득일을 선택해주세요.",
-            icon = painterResource(id = R.drawable.ic_calendar),
-        )
-        CommonTextFieldIcon(
-            value = applicationDate,
-            text = "보훈 수당 신청일",
-            onValueChange = { applicationDate = it },
-            label = "보훈 수당 신청일을 선택해주세요.",
-            icon = painterResource(id = R.drawable.ic_calendar),
-        )
-    }
-    Spacer(modifier = Modifier.height(40.dp))
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        CommonTextFieldIcon(
-            value = moveInDate,
-            text = "전입일",
-            onValueChange = { moveInDate = it },
-            label = "전입일을 선택해주세요.",
-            icon = painterResource(id = R.drawable.ic_calendar),
-        )/*Column {
-            Text(
-                text = "전출일",
-                fontSize = 16.sp,
-                color = Color.Black,
-                fontFamily = FontFamily(Font(R.font.pretendard_medium)),
-            )
+        Column {
             OutlinedTextField(
-                value = moveOutDate,
-                onValueChange = { moveOutDate = it },
-                label = { Text(text = "전출일을 선택해주세요.") },
+                modifier = Modifier.width(400.dp),
+                value = accountNumber,
+                onValueChange = { accountNumber = it },
+                label = { Text(text = "우편번호 찾기 버튼을 눌러주세요.") },
                 shape = RoundedCornerShape(8.dp),
-                trailingIcon = {
-                    Icon(
-                        modifier = Modifier.size(24.dp),
-                        painter = painterResource(id = R.drawable.ic_calendar),
-                        contentDescription = null,
-                    )
-                },
                 maxLines = 1,
             )
-        }*/
+        }
+        androidx.compose.material3.Button(
+            colors = ButtonDefaults.buttonColors(Color.White),
+            onClick = {},
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .width(160.dp)
+                .border(
+                    width = 1.dp,
+                    shape = RoundedCornerShape(8.dp),
+                    color = Color.Black,
+                ),
+        ) {
+            Text(
+                text = "우편번호 찾기",
+                color = Color.Black,
+                fontSize = 16.sp,
+            )
+        }
     }
-    Spacer(modifier = Modifier.height(106.dp))
+    Spacer(modifier = Modifier.height(40.dp))
+    CommonFilledTextField(
+        value = address,
+        text = "상세 주소",
+        onValueChange = { address = it },
+        label = "우편 번호 찾기 후 상세 주소를 입력해주세요.",
+    )
+    Spacer(modifier = Modifier.height(40.dp))
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        CommonTextField(
+            value = acquisitionDate,
+            text = "신청인의 성명",
+            onValueChange = { acquisitionDate = it },
+            label = "신청인의 성명을 입력해주세요",
+            width = 400.dp,
+        )
+        CommonTextField(
+            value = applicationDate,
+            text = "신청인 생년월일",
+            onValueChange = { applicationDate = it },
+            label = "신청인의 생년월일을 입력해주세요. 예)2023-01-01",
+            width = 400.dp
+        )
+    }
+    Spacer(modifier = Modifier.height(40.dp))
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         CommonTextField(
             value = address,
-            text = "주소",
+            text = "신청인 주민등록번호",
             onValueChange = { address = it },
-            label = "도로명 주소를 입력해주세요.",
-        )/*Column {
-                Text(
-                    text = "행정동",
-                    fontSize = 16.sp,
-                    color = Color.Black,
-                    fontFamily = FontFamily(Font(R.font.pretendard_medium))
-                )
-                OutlinedTextField(
-                    value = administrativeBuilding,
-                    onValueChange = { administrativeBuilding = it },
-                    label = { Text(text = "주소를 입력하시면 자동 입력됩니다.") },
-                    shape = RoundedCornerShape(8.dp),
-                    maxLines = 1,
-                )
-            }*/
-    }
-    Spacer(modifier = Modifier.height(40.dp))
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        CommonTextField(
-            value = depositType,
-            text = "입금 유형",
-            onValueChange = { depositType = it },
-            label = "입금 유형을 입력해주세요."
+            label = "신청인의 주민등록번호를 입력해주세요.",
+            width = 400.dp,
         )
         CommonTextField(
-            value = bankName,
-            text = "은행명",
-            onValueChange = { bankName = it },
-            label = "은행명을 입력해주세요.",
+            value = moveInDate,
+            text = "신청인 성별",
+            onValueChange = { moveInDate = it },
+            label = "신청인의 성별을 입력해주세요.",
+            width = 400.dp,
         )
     }
     Spacer(modifier = Modifier.height(40.dp))
@@ -279,79 +256,74 @@ private fun TextField() {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
+        CommonTextField(
+            value = address,
+            text = "신청인 전화번호",
+            onValueChange = { address = it },
+            label = "신청인의 전화번호를 입력해주세요.",
+            width = 400.dp,
+        )
         CommonTextField(
             value = accountHolder,
-            text = "예금주",
+            text = "은행명",
             onValueChange = { accountHolder = it },
-            "예금주 성명을 입력해주세요.",
+            label = "은행명을 입력해주세요.",
+            width = 400.dp,
+        )
+    }
+    Spacer(modifier = Modifier.height(40.dp))
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        CommonTextField(
+            value = accountNumber,
+            text = "예금주",
+            onValueChange = { accountNumber = it },
+            label = "예금주 성명을 입력해주세요.",
+            width = 400.dp,
         )
         CommonTextField(
             value = accountNumber,
-            text = "계좌 번호",
+            text = "계좌번호",
             onValueChange = { accountNumber = it },
-            label = "계좌 번호를 입력해주세요.",
+            label = "계좌번호를 입력해주세요.",
+            width = 400.dp,
         )
     }
+    Spacer(modifier = Modifier.height(40.dp))
+    CommonFilledTextField(
+        value = accountNumber,
+        text = "전입일",
+        onValueChange = { accountNumber = it },
+        label = "전입일과 지역을 입력해주세요. 예)2023-01-01(대전 서구)",
+    )
+    Spacer(modifier = Modifier.height(20.dp))
+    Text(
+        text = "아래는 보훈 대상자가 유족일 경우에만 입력해주세요",
+    )
+    Spacer(modifier = Modifier.height(20.dp))
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        CommonTextField(
+            value = accountNumber,
+            text = "가족 관계",
+            onValueChange = { accountNumber = it },
+            label = "보훈 대상자와의 가족 관계를 입력해주세요. 예) 자녀",
+            width = 400.dp,
+        )
+        CommonTextField(
+            value = accountNumber,
+            text = "선순위 유족 여부",
+            onValueChange = { accountNumber = it },
+            label = "선순위 유족 여부를 입력해주세요. 예) 예",
+            width = 400.dp,
+        )
+    }
+    
     Spacer(modifier = Modifier.height(50.dp))
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun CommonTextField(
-    value: String,
-    text: String,
-    onValueChange: (String) -> Unit,
-    label: String,
-) {
-    Column {
-        Text(
-            text = text,
-            fontSize = 16.sp,
-            color = Color.Black,
-            fontFamily = FontFamily(Font(R.font.pretendard_medium))
-        )
-        OutlinedTextField(
-            modifier = Modifier.width(330.dp),
-            value = value,
-            onValueChange = onValueChange,
-            label = { Text(text = label) },
-            shape = RoundedCornerShape(8.dp),
-            maxLines = 1,
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun CommonTextFieldIcon(
-    value: String,
-    text: String,
-    onValueChange: (String) -> Unit,
-    label: String, icon: Painter,
-) {
-    Column {
-        Text(
-            text = text,
-            fontSize = 16.sp,
-            color = Color.Black,
-            fontFamily = FontFamily(Font(R.font.pretendard_medium))
-        )
-        OutlinedTextField(
-            modifier = Modifier.width(330.dp),
-            value = value,
-            onValueChange = onValueChange,
-            label = { Text(text = label) },
-            shape = RoundedCornerShape(8.dp),
-            trailingIcon = {
-                Icon(
-                    modifier = Modifier.size(24.dp),
-                    painter = icon,
-                    contentDescription = null,
-                )
-            },
-            maxLines = 1,
-        )
-    }
 }
 
 @Composable

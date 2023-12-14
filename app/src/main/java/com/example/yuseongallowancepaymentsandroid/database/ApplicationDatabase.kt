@@ -5,11 +5,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.yuseongallowancepaymentsandroid.dao.ApplicationDao
-import com.example.yuseongallowancepaymentsandroid.entity.Application
+import com.example.yuseongallowancepaymentsandroid.entity.CourtesyApplication
+import com.example.yuseongallowancepaymentsandroid.entity.HonorApplication
+import com.example.yuseongallowancepaymentsandroid.entity.PartnerApplication
 
 
 @Database(
-    entities = [Application::class],
+    entities = [CourtesyApplication::class, HonorApplication::class, PartnerApplication::class],
     version = 1,
 )
 

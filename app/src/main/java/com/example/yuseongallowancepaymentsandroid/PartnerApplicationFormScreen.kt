@@ -1,6 +1,8 @@
 package com.example.yuseongallowancepaymentsandroid
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -16,13 +18,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -39,7 +38,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
@@ -129,6 +128,7 @@ private fun MainTopAppBar(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TextField() {
+    val context = LocalContext.current
     var name by remember { mutableStateOf("") }
     var idCard by remember { mutableStateOf("") }
     var veteranNumber by remember { mutableStateOf("") }
@@ -190,7 +190,13 @@ private fun TextField() {
         }
         androidx.compose.material3.Button(
             colors = ButtonDefaults.buttonColors(Color.White),
-            onClick = {},
+            onClick = {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://www.juso.go.kr/openIndexPage.do")
+                )
+                context.startActivity(intent)
+            },
             modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))
                 .width(160.dp)

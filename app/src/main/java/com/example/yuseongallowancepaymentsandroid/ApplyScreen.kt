@@ -31,8 +31,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.room.Room
-import com.example.yuseongallowancepaymentsandroid.database.ApplicationDatabase
 import com.example.yuseongallowancepaymentsandroid.navigation.AppNavigationItem
 
 val buttonTitles = listOf("참전유공자 명예 수당", "참전유공자 배우자 수당", "보훈 예우 수당")
@@ -89,11 +87,11 @@ fun ApplyScreen(
             Spacer(modifier = Modifier.size(50.dp))
             Button(
                 onClick = {
-                          when(selectedButtonIndex) {
-                              0 -> moveToHonor()
-                              1 -> moveToPartner()
-                              2 -> moveToCourtesy()
-                          }
+                    when (selectedButtonIndex) {
+                        0 -> moveToHonor()
+                        1 -> moveToPartner()
+                        2 -> moveToCourtesy()
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(Color(0xFF0F5EB8)),
                 modifier = Modifier

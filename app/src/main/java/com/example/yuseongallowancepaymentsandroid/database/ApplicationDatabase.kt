@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.yuseongallowancepaymentsandroid.HonorApplicationFormScreen
 import com.example.yuseongallowancepaymentsandroid.dao.ApplicationDao
 import com.example.yuseongallowancepaymentsandroid.entity.Application
 
@@ -23,7 +22,7 @@ abstract class ApplicationDatabase : RoomDatabase() {
         @Synchronized
         fun getInstance(context: Context): ApplicationDatabase? {
             if (instance == null) {
-                synchronized(ApplicationDatabase::class){
+                synchronized(ApplicationDatabase::class) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         ApplicationDatabase::class.java,

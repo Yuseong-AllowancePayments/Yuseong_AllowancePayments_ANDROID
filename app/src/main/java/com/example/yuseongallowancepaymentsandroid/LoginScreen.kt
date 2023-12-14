@@ -54,7 +54,7 @@ fun LoginScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .padding(40.dp),
-        contentAlignment = Alignment.Center
+        contentAlignment = Center
     ) {
         Column(
             modifier = Modifier

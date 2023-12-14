@@ -15,7 +15,7 @@ interface ApplicationDao {
     suspend fun update(application: Application)
 
     @Query("select * from application")
-    suspend fun getApplication() : List<Application>
+    suspend fun getApplication(): List<Application>
 
     @Query("SELECT * FROM APPLICATION") // 테이블의 모든 값을 가져와라
     fun getAll(): List<Application>

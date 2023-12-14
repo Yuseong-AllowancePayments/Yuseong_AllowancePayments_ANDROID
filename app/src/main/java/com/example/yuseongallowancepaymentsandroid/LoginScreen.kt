@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -124,11 +123,9 @@ fun LoginScreen(navController: NavController) {
             }
             Button(
                 onClick = {
-                    Log.d("pin",pin)
+                    Log.d("pin", pin)
                     loginViewModel.loginWithPin(pin, sharedPreferences)
-                    if (loginViewModel.token.isNotBlank()) {
-                        navController.navigate(AppNavigationItem.Excel.route) { popUpTo(0) }
-                    }
+                    navController.navigate(AppNavigationItem.Excel.route) { popUpTo(0) }
                 },
                 colors = ButtonDefaults.buttonColors(Color(0xFF0F5EB8)),
                 modifier = Modifier

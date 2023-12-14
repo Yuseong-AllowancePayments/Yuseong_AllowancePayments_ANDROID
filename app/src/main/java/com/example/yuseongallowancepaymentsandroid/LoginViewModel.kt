@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
 
-    var token = ""
+    var token: String? = ""
     fun loginWithPin(pin: String, sharedPreferences: SharedPreferences) {
         CoroutineScope(Dispatchers.IO).launch {
             kotlin.runCatching {
@@ -20,12 +20,11 @@ class LoginViewModel : ViewModel() {
                     pinRequest = PinRequest(pin = pin)
                 )
             }.onSuccess {
-                token = it.accessToken
+                Log.d("token", token.toString())
                 sharedPreferences
                     .edit()
                     .putString("token", token)
                     .apply()
-                Log.d("token", token)
             }.onFailure {
                 Log.d(TAG, it.toString())
             }

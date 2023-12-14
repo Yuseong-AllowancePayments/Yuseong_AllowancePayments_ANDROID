@@ -60,12 +60,12 @@ fun ExcelScreen(
                 .background(Color.White)
         ) {
             MainTopAppBar(
-                text = when(selectedButtonIndex) {
-                    0 -> buttonTitles[0] + " 지급 대상자 조회"
-                    1 -> buttonTitles[1] + " 지급 대상자 조회"
-                    2 -> buttonTitles[2] + " 지급 대상자 조회"
+                text = when (selectedButtonIndex) {
+                    0 -> buttonTitles[0]
+                    1 -> buttonTitles[1]
+                    2 -> buttonTitles[2]
                     else -> {}
-                } as String
+                } as String + " 지급 대상자 조회"
             )
             Column(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                 FieldTitle()
@@ -74,14 +74,27 @@ fun ExcelScreen(
                 }
             }
         }
-        Box(modifier = Modifier.align(Alignment.BottomCenter)) {
+        Box(
+            modifier = Modifier.align(Alignment.BottomCenter),
+        ) {
             Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 12.dp)
-                    .background(color = Color.White)
+                    .height(110.dp)
+                    .padding(
+                        horizontal = 20.dp,
+                        vertical = 12.dp,
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(24.dp),
+                    )
+                    .clip(RoundedCornerShape(24.dp))
+                    .background(color = Color(0xFFFCFCFC))
                     .padding(12.dp),
-                horizontalArrangement = Arrangement.Center,
             ) {
                 buttonTitles.forEachIndexed { index, title ->
                     ApplyButton(
@@ -126,13 +139,14 @@ private fun MainTopAppBar(
             androidx.compose.material3.Button(
                 modifier = Modifier
                     .height(40.dp)
+                    .fillMaxWidth()
                     .clip(RoundedCornerShape(8.dp))
-                    .align(Alignment.CenterVertically)
-                    .padding(end = 64.dp),
+                    .padding(horizontal = 20.dp),
                 onClick = { /*TODO*/ },
-                colors = ButtonDefaults.buttonColors(Color(0xFF2F68C2))
+                colors = ButtonDefaults.buttonColors(Color(0xFF2F68C2)),
             ) {
                 Text(
+                    modifier = Modifier.align(Alignment.CenterVertically),
                     text = "엑셀파일 출력",
                     fontFamily = FontFamily(Font(R.font.pretendard_medium)),
                 )
@@ -192,6 +206,7 @@ private fun Field() {
             onValueChange = { number = it },
             width = 100.dp,
             defaultText = "",
+            backgroundColor = Color(0xFFFAFAFA)
         )
         Box(
             modifier = Modifier
@@ -204,6 +219,7 @@ private fun Field() {
             onValueChange = { administrativeBuilding = it },
             width = 160.dp,
             defaultText = "",
+            backgroundColor = Color.White,
         )
         Box(
             modifier = Modifier
@@ -216,6 +232,7 @@ private fun Field() {
             onValueChange = { veteransAffairsNumber = it },
             width = 120.dp,
             defaultText = "",
+            backgroundColor = Color.White,
         )
         Box(
             modifier = Modifier
@@ -228,6 +245,7 @@ private fun Field() {
             onValueChange = { name = it },
             width = 100.dp,
             defaultText = "",
+            backgroundColor = Color.White,
         )
         Box(
             modifier = Modifier
@@ -240,6 +258,7 @@ private fun Field() {
             onValueChange = { birth = it },
             width = 180.dp,
             defaultText = "",
+            backgroundColor = Color.White,
         )
         Box(
             modifier = Modifier
@@ -252,6 +271,7 @@ private fun Field() {
             onValueChange = { address = it },
             width = 400.dp,
             defaultText = "",
+            backgroundColor = Color.White,
         )
     }
 }
@@ -376,6 +396,7 @@ private fun ExcelBasicTextField(
     onValueChange: (String) -> Unit,
     width: Dp,
     defaultText: String?,
+    backgroundColor: Color,
 ) {
     BasicTextField(value = value,
         onValueChange = onValueChange,
@@ -391,7 +412,7 @@ private fun ExcelBasicTextField(
         decorationBox = { innerTextField ->
             Row(
                 modifier = Modifier
-                    .background(color = Color.White)
+                    .background(color = backgroundColor)
                     .width(width)
                     .border(
                         width = 1.dp,
@@ -427,6 +448,7 @@ private fun ApplyButton(
     onClick: () -> Unit,
 ) {
     val borderColor = if (isSelected) Color.Blue else Color.LightGray
+    val textColor = if (isSelected) Color.Blue else Color.Gray
     val backgroundColor = if (borderColor == Color.Blue) Color(0xFFE6F2FF) else Color.White
     androidx.compose.material3.Button(
         colors = ButtonDefaults.buttonColors(backgroundColor),
@@ -434,8 +456,8 @@ private fun ApplyButton(
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
             .size(
-                width = 214.dp,
-                height = 80.dp,
+                width = 204.dp,
+                height = 76.dp,
             )
             .border(
                 width = 1.dp,
@@ -446,7 +468,7 @@ private fun ApplyButton(
     ) {
         Text(
             text = title,
-            color = borderColor,
+            color = textColor,
             fontSize = 16.sp,
         )
     }

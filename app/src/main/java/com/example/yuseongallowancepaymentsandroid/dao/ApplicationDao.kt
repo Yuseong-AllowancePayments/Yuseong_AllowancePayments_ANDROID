@@ -1,5 +1,6 @@
 package com.example.yuseongallowancepaymentsandroid.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -11,7 +12,7 @@ import com.example.yuseongallowancepaymentsandroid.entity.PartnerApplication
 @Dao
 interface ApplicationDao {
     @Insert
-    suspend fun honorInsert(courtesyApplication: CourtesyApplication)
+    suspend fun honorInsert(honorApplication: HonorApplication)
     @Insert
     suspend fun partnerInsert(partnerApplication: PartnerApplication)
     @Insert
@@ -22,9 +23,12 @@ interface ApplicationDao {
     suspend fun partnerUpdate(partnerApplication: PartnerApplication)
     @Update
     suspend fun courtesyUpdate(courtesyApplication: CourtesyApplication)
-    @Query("select * from courtesyApplication")
-    suspend fun getCourtesyApplication(): List<CourtesyApplication>
 
-    @Query("SELECT * FROM COURTESYAPPLICATION") // 테이블의 모든 값을 가져와라
-    fun getAll(): List<CourtesyApplication>
+
+    @Query("select * from honorApplication")
+    fun getHonorApplication(): LiveData<List<HonorApplication>>
+    @Query("select * from partnerApplication")
+    fun getPartnerApplication(): LiveData<List<PartnerApplication>>
+    @Query("select * from courtesyApplication")
+    fun getCourtesyApplication(): LiveData<List<CourtesyApplication>>
 }
